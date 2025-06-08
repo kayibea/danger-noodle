@@ -15,7 +15,7 @@ export interface IGameController {
 export type GameControllerConstructor = new (canvas: HTMLCanvasElement) => IGameController;
 
 export default abstract class AbstractController implements IGameController {
-  public static readonly TARGET_CELL_SIZE = 10;
+  public static readonly TARGET_CELL_SIZE = 30;
   protected readonly perfM: PerfMon;
   protected readonly cols: number;
   protected readonly rows: number;
