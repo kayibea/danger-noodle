@@ -16,20 +16,15 @@ export default class Snake {
     const color = new RGBA(4, 129, 81);
     this.headColor = color.toString();
     this.bodyColor = color.alpha(0.5).toString();
-    this._body = [];
-    this._body.push(new Vector2(0, 0));
-    this._body.push(new Vector2(0, 0).add(Vector2.right));
-
-    //TODO: Comment/Remove this test only code
-    // for (let i = 0; i < 30; i++) {
-    //   const last = this._body[this._body.length - 1];
-    //   this._body.push(last.sub(Vector2.right));
-    // }
 
     this.inputQueue = [];
     this.moveIntvl = 30;
     this.lastMoveTime = 0;
     this.direction = Vector2.right;
+
+    this._body = [];
+    this._body.push(new Vector2(0, 0));
+    this.grow();
 
     this.inputListenerFn = this.inputListener.bind(this);
   }
