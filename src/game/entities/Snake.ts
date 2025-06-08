@@ -4,7 +4,7 @@ import { keyMap } from 'game/constants/keyMap';
 
 export default class Snake {
   public readonly direction: Vector2;
-  private readonly _body: Vector2[];
+  public readonly body: Vector2[];
   public readonly headColor: string;
   public readonly bodyColor: string;
   private moveIntvl: number;
@@ -22,8 +22,8 @@ export default class Snake {
     this.lastMoveTime = 0;
     this.direction = Vector2.right;
 
-    this._body = [];
-    this._body.push(new Vector2(0, 0));
+    this.body = [];
+    this.body.push(new Vector2(0, 0));
     this.grow();
 
     this.inputListenerFn = this.inputListener.bind(this);
@@ -34,14 +34,14 @@ export default class Snake {
   }
 
   private move(): void {
-    this._body.unshift(this.head.add(this.direction));
-    this._body.pop();
+    this.body.unshift(this.head.add(this.direction));
+    this.body.pop();
     this.lastMoveTime = 0;
   }
 
   public grow(): void {
-    const lastSeg = this._body.at(-1)!;
-    this._body.push(lastSeg.sub(this.direction));
+    const lastSeg = this.body.at(-1)!;
+    this.body.push(lastSeg.sub(this.direction));
   }
 
   private handleDirection(): void {
@@ -53,11 +53,7 @@ export default class Snake {
   }
 
   public get head(): Vector2 {
-    return this._body[0];
-  }
-
-  public get body(): Vector2[] {
-    return this._body.slice(1);
+    return this.body[0];
   }
 
   public update(dt: number): void {
