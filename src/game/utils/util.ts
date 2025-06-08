@@ -51,7 +51,7 @@ export const floodFillArea = (grid: Grid, start: Point, maxW: number, maxH: numb
   return count;
 };
 
-export const getFoodSpawn = (grid: Grid, snake: Point[], maxW: number, maxH: number): Point => {
+export const getFoodSpawn = (grid: Grid, snake: readonly Point[], maxW: number, maxH: number): Point => {
   const head = snake[0];
   const freeCells: Point[] = [];
 
