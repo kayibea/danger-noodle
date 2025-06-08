@@ -2,7 +2,7 @@ import Vector2 from 'lib/Vector2';
 import PerfMon from 'lib/PerfMon';
 import Food from 'game/entities/Food';
 import Snake from 'game/entities/Snake';
-import { getFoodSpawn } from 'game/utils/util';
+import { getFoodSpawn, isOutOfBounds } from 'game/utils/util';
 import type { Grid, Point } from 'game/types/game';
 
 export interface IGameController {
@@ -61,7 +61,12 @@ export default abstract class AbstractController implements IGameController {
 
   protected spawnFoods(): void {
     const grid: Grid = Array.from({ length: this.rows }, () => Array(this.cols).fill(0));
+
     for (const segm of this.snake.body) {
+      if (isOutOfBounds(segm, this.cols, this.rows)) {
+        continue;
+      }
+
       grid[segm.y][segm.x] = 1;
     }
 
@@ -95,7 +100,7 @@ export default abstract class AbstractController implements IGameController {
 
     ctx.fillStyle = this.snake.bodyColor;
     ctx.beginPath();
-    for (let i = 1; i <= this.snake.body.length; i++) {
+    for (let i = 1; i < this.snake.body.length; i++) {
       const segm = this.snake.body[i];
       ctx.rect(segm.x * this.cellW, segm.y * this.cellH, this.cellW, this.cellH);
     }
