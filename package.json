@@ -5,7 +5,7 @@
   "type": "module",
   "homepage": "https://kayibea.github.io/danger-noodle",
   "scripts": {
-    "deploy": "gh-pages -d dist",
+    "deploy": "npm run build && gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
