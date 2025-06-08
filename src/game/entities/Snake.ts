@@ -64,7 +64,7 @@ export default class Snake {
     }
   }
 
-  public didBiteIself(): boolean {
+  public didBiteItself(): boolean {
     const head = this.head;
     for (let i = 1; i < this.body.length; i++) {
       const seg = this.body[i];
