@@ -18,7 +18,7 @@ export default class Snake {
     this.bodyColor = color.alpha(0.5).toString();
 
     this.inputQueue = [];
-    this.moveIntvl = 100;
+    this.moveIntvl = 130;
     this.lastMoveTime = 0;
     this.direction = Vector2.right;
 
