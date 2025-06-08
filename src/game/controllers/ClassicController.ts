@@ -21,9 +21,8 @@ export default class ClassicController extends BaseController {
     this.snake.update(dt);
     this.perfM.update(dt);
 
-    if (this.snake.didSnakeBiteIself()) {
+    if (this.snake.didBiteIself()) {
       gameState.isGameOver = true;
-      return;
     }
 
     if (this.didSnakeChomp()) {
