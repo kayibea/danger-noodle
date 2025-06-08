@@ -25,7 +25,7 @@ export default class ClassicController extends BaseController {
       gameState.isGameOver = true;
     }
 
-    if (this.didSnakeChomp()) {
+    if (this.didChomp()) {
       gameState.score += 1;
       this.spawnFoods();
       this.snake.grow();
