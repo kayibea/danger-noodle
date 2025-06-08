@@ -30,7 +30,7 @@ export default class Snake {
   }
 
   private canMove(): boolean {
-    return this.lastMoveTime > this.moveIntvl;
+    return this.lastMoveTime >= this.moveIntvl;
   }
 
   private move(): void {
@@ -60,8 +60,8 @@ export default class Snake {
     this.lastMoveTime += dt;
 
     if (this.canMove()) {
-      this.move();
       this.handleDirection();
+      this.move();
     }
   }
 
