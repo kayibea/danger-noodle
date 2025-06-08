@@ -20,11 +20,9 @@ export default class Snake {
     this.inputQueue = [];
     this.moveIntvl = 130;
     this.lastMoveTime = 0;
-    this.direction = Vector2.right;
-
+    this.direction = new Vector2(0, 0);
     this.body = [];
     this.body.push(new Vector2(0, 0));
-    this.grow();
 
     this.inputListenerFn = this.inputListener.bind(this);
   }
