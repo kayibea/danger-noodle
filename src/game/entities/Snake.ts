@@ -1,6 +1,7 @@
 import RGBA from 'lib/RGBA';
 import Vector2 from 'lib/Vector2';
 import { keyMap } from 'game/constants/keyMap';
+import type { Point } from 'game/types/game';
 
 export default class Snake {
   public readonly direction: Vector2;
@@ -12,7 +13,7 @@ export default class Snake {
   private readonly inputQueue: Vector2[];
   private readonly inputListenerFn: (e: KeyboardEvent) => void;
 
-  public constructor() {
+  public constructor(pos: Point) {
     const color = new RGBA(4, 129, 81);
     this.headColor = color.toString();
     this.bodyColor = color.alpha(0.5).toString();
@@ -22,7 +23,7 @@ export default class Snake {
     this.lastMoveTime = 0;
     this.direction = new Vector2(0, 0);
     this.body = [];
-    this.body.push(new Vector2(0, 0));
+    this.body.push(new Vector2(pos.x, pos.y));
 
     this.inputListenerFn = this.inputListener.bind(this);
   }

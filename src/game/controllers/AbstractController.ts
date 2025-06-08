@@ -4,6 +4,7 @@ import Food from 'game/entities/Food';
 import Snake from 'game/entities/Snake';
 import { getFoodSpawn, isOutOfBounds } from 'game/utils/util';
 import type { Grid, Point } from 'game/types/game';
+import { getRandomInt } from 'utils/util';
 
 export interface IGameController {
   render(): void;
@@ -32,7 +33,9 @@ export default abstract class AbstractController implements IGameController {
     this.cellW = canvas.width / this.cols;
     this.cellH = canvas.height / this.rows;
     this.perfM = new PerfMon();
-    this.snake = new Snake();
+
+    const [snakeX, snakeY] = [getRandomInt(0, this.cols), getRandomInt(0, this.rows)];
+    this.snake = new Snake({ x: snakeX, y: snakeY });
     this.foods = [];
     this.maxFoodSpawn = 1;
 
