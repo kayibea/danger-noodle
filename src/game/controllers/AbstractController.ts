@@ -95,8 +95,9 @@ export default abstract class AbstractController implements IGameController {
 
     ctx.fillStyle = this.snake.bodyColor;
     ctx.beginPath();
-    for (const segment of this.snake.body) {
-      ctx.rect(segment.x * this.cellW, segment.y * this.cellH, this.cellW, this.cellH);
+    for (let i = 1; i <= this.snake.body.length; i++) {
+      const segm = this.snake.body[i];
+      ctx.rect(segm.x * this.cellW, segm.y * this.cellH, this.cellW, this.cellH);
     }
     ctx.fill();
   }
