@@ -8,10 +8,10 @@
   import type { IGameController } from 'game/controllers/AbstractController';
 
   let canvas: HTMLCanvasElement;
-  let gameLoop: GameLoop;
+  let gameLoop: GameLoop = $state()!;
   let controller: IGameController;
 
-  let paused = $state(true);
+  let paused = $state(false);
   let resumeTimer = $state(0);
   let countingDown = $derived(resumeTimer > 0);
   let countdownInterval: number | null = null;
@@ -20,6 +20,24 @@
 
   function goBack() {
     uiState.currentScreen = 'menu';
+  }
+
+  async function restartGame() {
+    if (controller) controller.removeListeners();
+
+    controller = (await instantiateController(currentModeId, canvas))!;
+    if (!gameMode || !controller) {
+      console.error(`Invalid game mode id (${currentModeId}) or to be implemented !`);
+      uiState.currentScreen = 'menu';
+      return;
+    }
+    gameLoop = new GameLoop(controller);
+    controller.setupListeners();
+
+    gameState.score = 0;
+    gameState.isGameOver = false;
+    togglePause();
+    togglePause();
   }
 
   function resizeCanvas() {
@@ -66,19 +84,9 @@
 
   onMount(async () => {
     resizeCanvas();
-
-    controller = (await instantiateController(currentModeId, canvas))!;
-    if (!gameMode || !controller) {
-      console.error(`Invalid game mode id (${currentModeId}) or to be implemented !`);
-      uiState.currentScreen = 'menu';
-      return;
-    }
-    gameLoop = new GameLoop(controller);
-
-    controller.setupListeners();
     window.addEventListener('resize', resizeCanvas);
 
-    togglePause();
+    await restartGame();
   });
 
   onDestroy(() => {
@@ -116,6 +124,20 @@
         <div class="pause-box">
           <div class="pause-title">Paused</div>
           <div class="pause-tip">Press resume to continue</div>
+        </div>
+      </div>
+    {/if}
+
+    {#if gameState.isGameOver}
+      {gameLoop.stop()}
+      <div class="pause-overlay">
+        <div class="pause-box">
+          <div class="pause-title">Game Over</div>
+          <div class="score-display">Score: {gameState.score}</div>
+          <div class="gameover-buttons">
+            <button onclick={restartGame}>Restart</button>
+            <button onclick={goBack}>Exit</button>
+          </div>
         </div>
       </div>
     {/if}
@@ -238,5 +260,37 @@
   .pause-tip {
     font-size: var(--fs-small);
     color: var(--color-muted);
+  }
+
+  .score-display {
+    font-size: var(--fs-large);
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+
+  .gameover-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 1rem;
+  }
+
+  .gameover-buttons button {
+    padding: 0.4rem 1rem;
+    background: #222;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-family: var(--font-ui);
+    font-size: var(--fs-small);
+    color: white;
+    cursor: pointer;
+    transition:
+      background 0.2s,
+      border-color 0.2s;
+  }
+
+  .gameover-buttons button:hover {
+    background: #333;
+    border-color: var(--border-color-hover);
   }
 </style>
