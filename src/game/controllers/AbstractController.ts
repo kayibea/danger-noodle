@@ -45,7 +45,12 @@ export default abstract class AbstractController implements IGameController {
   public abstract removeListeners(): void;
 
   protected didSnakeChomp(): boolean {
-    return this.foods.some(({ position: pos }) => pos.equals(this.snake.head));
+    const index = this.foods.findIndex(({ position: pos }) => pos.equals(this.snake.head));
+    if (index !== -1) {
+      this.foods.splice(index, 1);
+      return true;
+    }
+    return false;
   }
 
   private spawnFood(pos: Point): void {
