@@ -28,6 +28,8 @@ export default class ClassicController extends BaseController {
 
     if (this.didSnakeChomp()) {
       gameState.score += 1;
+      this.spawnFoods();
+      this.snake.grow();
     }
   }
 
