@@ -18,12 +18,13 @@ export default class Snake {
     this.bodyColor = color.alpha(0.5).toString();
     this._body = [];
     this._body.push(new Vector2(0, 0));
+    this._body.push(new Vector2(0, 0).add(Vector2.right));
 
     //TODO: Comment/Remove this test only code
-    for (let i = 0; i < 30; i++) {
-      const last = this._body[this._body.length - 1];
-      this._body.push(last.sub(Vector2.right));
-    }
+    // for (let i = 0; i < 30; i++) {
+    //   const last = this._body[this._body.length - 1];
+    //   this._body.push(last.sub(Vector2.right));
+    // }
 
     this.inputQueue = [];
     this.moveIntvl = 30;
@@ -41,6 +42,11 @@ export default class Snake {
     this._body.unshift(this.head.add(this.direction));
     this._body.pop();
     this.lastMoveTime = 0;
+  }
+
+  public grow(): void {
+    const lastSeg = this._body.at(-1)!;
+    this._body.push(lastSeg.sub(this.direction));
   }
 
   private handleDirection(): void {
