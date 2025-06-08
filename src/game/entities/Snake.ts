@@ -65,8 +65,14 @@ export default class Snake {
     }
   }
 
-  public didSnakeBiteIself(): boolean {
-    return this.body.some((segment) => this.head.equals(segment));
+  public didBiteIself(): boolean {
+    const head = this.head;
+    for (let i = 1; i < this.body.length; i++) {
+      const seg = this.body[i];
+      if (head.equals(seg)) return true;
+    }
+
+    return false;
   }
 
   private keyToDirection(key: string): Vector2 | null {
